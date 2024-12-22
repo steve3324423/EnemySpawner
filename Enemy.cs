@@ -12,6 +12,6 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.MoveTowards(transform.position,_direction,_speed * Time.deltaTime);
+        transform.Translate(_direction * _speed * Time.deltaTime);
     }
 }
