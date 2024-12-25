@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     [SerializeField] private EnemyFactory _factory;
-    [SerializeField] private Vector3[] _directions;
+    [SerializeField] private Target _target;
 
     private float _timeForCoroutine = 2f;
     private WaitForSeconds _waitSeconds;
@@ -16,17 +16,18 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(SpawnRandomPosition());
+        StartCoroutine(SpawnEnemy());
     }
 
-    private IEnumerator SpawnRandomPosition()
+    private IEnumerator SpawnEnemy()
     {
         bool isCoroutineRun = true;
 
         while(isCoroutineRun)
         {
             Enemy enemy = _factory.Create(transform.position);
-            enemy.SetDirection(_directions);
+            enemy.SetTarget(_target);
+
             yield return _waitSeconds;
         }
     }

@@ -1,26 +1,29 @@
+using System;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    private Vector3[] _directions;
-    private int _indexTarget = 0;
+    private Target _target;
     private float _speed = 10f;
 
-    public void SetDirection(Vector3[] directions)
+    public event Action AchievedTarget;
+
+    public void SetTarget(Target target)
     {
-        _directions = directions;
+        _target = target;
+        _target.SetEnemy(this);
     }
 
     private void Update()
     {
-        MoveToTarget();
+        if (transform.position == _target.GetTarget())
+            AchievedTarget?.Invoke();
+        else
+            StepToTarget();
     }
 
-    private void MoveToTarget()
+    private void StepToTarget()
     {
-        if (transform.position == _directions[_indexTarget])
-            _indexTarget++;
-
-        transform.position = Vector3.MoveTowards(transform.position, _directions[_indexTarget],_speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position,_target.GetTarget(),_speed * Time.deltaTime);
     }
 }
