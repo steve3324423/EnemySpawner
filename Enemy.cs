@@ -6,18 +6,23 @@ public class Enemy : MonoBehaviour
     private Target _target;
     private float _speed = 10f;
 
-    public event Action AchievedTarget;
-
     public void SetTarget(Target target)
     {
         _target = target;
-        _target.SetEnemy(this);
     }
 
     private void Update()
     {
-        if (transform.position == _target.GetTarget())
-            AchievedTarget?.Invoke();
+        SetTargetPosition();
+    }
+
+    private void SetTargetPosition()
+    {
+        Vector3 offset = transform.position - _target.GetTarget();
+        float minDistance = .1f;
+
+        if (offset.sqrMagnitude <= minDistance * minDistance)
+            _target.OnAchievedTarget();
         else
             StepToTarget();
     }

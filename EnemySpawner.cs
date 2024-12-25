@@ -16,10 +16,10 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(SpawnEnemy());
+        StartCoroutine(Spawn());
     }
 
-    private IEnumerator SpawnEnemy()
+    private IEnumerator Spawn()
     {
         bool isCoroutineRun = true;
 
